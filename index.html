@@ -6,8 +6,52 @@
     <title>TO_DO_LIST</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container"></div>
+<body>  
+    <div class="top">
+            <div class="one">
+            <h1 class="h">TASK</h1>
+            <button class="plus">+</button>
+          </div>
+          <div class="two">
+            <h2>4 task </h2><h1>|</h1>
+            <h2>2 in progress</h2><h1>|</h1>
+            <h2>2 done</h2>
+          </div>
+        </div>
+    <div class="container">
+        <div class="list">
+     <div class="box">
+        <div class="event">blockchain</div>
+        <hr>
+        <div class="choose">
+            <span>
+                <select name="progress" id="pr">
+                    <option value="not started">not started</option>
+                    <option value=" in progress"> in progress</option>
+                    <option value="done">done </option>
+                </select>
+            </span>
+            <span>
+                <select name="level" id="pr">
+                    <option value="high ">high </option>
+                    <option value="  medium"> medium</option>
+                    <option value="low">low </option>
+                </select>
+            </span>
+        </div>
+        <hr>
+        <div>
+            <label for="due-date">Due Date</label>
+            <input type="date" id="due-date" name="due-date">
+        </div>
+    </div>
+        </div>
+    <div class="drop">
+        <div class="thry"><h2>do now</h2></div>
+        <!-- //drop there -->
+        <div class="bdy">drop there</div>
+    </div>
+    </div>
 
 
 

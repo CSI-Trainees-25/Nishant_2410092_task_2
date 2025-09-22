@@ -1,4 +1,114 @@
-*{
+* {
     padding: 0;
+    font-family: cursive;
     margin: 0;
+    text-transform: capitalize;
+}
+
+.container {
+    border: 4px solid rgb(112, 3, 90);
+    border-radius: 9px;
+    height: 80vh;
+    width: 80vw;
+    margin: 1vh auto 0vh;
+}
+.top{
+  border: 4px solid rgb(112, 3, 90);
+    border-radius: 9px;
+    margin: 1vh auto 3vh;   
+}
+
+.top {
+    background-color: rgb(228, 50, 228);
+    height: 12vh;
+    width: 80vw;
+    border: 4px solid rgb(112, 3, 90);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.one{
+       display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.two{
+       display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2.5vw;
+}
+.h {
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+.plus {
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+   background-color: rgb(211, 11, 201);
+   backdrop-filter: blur(15px);
+   border: 4px solid rgb(112, 3, 90);
+    font-size: 4em;
+    height: 6.5vh;
+    width:70px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.nav{
+       display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+@media (max-width: 670px) {
+    .two h2 {
+        font-size: smaller; 
+        margin-right: 0vw;
+    }
+    .h{
+     padding-left: 0vw;
+     font-size: small;
+    }
+    .plus{
+        height: 5vh;
+        width: 45px;
+        font-size: medium;
+    }
+}
+.container{
+     display: flex;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+.list{
+    border: 4px solid purple;
+    border-radius: 2px;
+    width: 70%;
+    height: 99.1%;
+}
+.thry{
+     display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    border: 4px solid purple;
+    border-radius: 1.5px;
+    background-color: rgb(230, 23, 230);
+    height: 9vh;
+    width: 25vw;
+    h2{
+        padding-left: 3vw;
+    }
+}
+.box{
+    margin: 2.5vh 1vw;
+    border: 3px solid black;
+    border-radius: 5px;
+    height: 12vh;
+
+}
+#pr{
+    background-color: aqua;
 }
