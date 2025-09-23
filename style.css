@@ -181,3 +181,8 @@
       margin: 0vh auto;
     }
 }
+.taskitem{
+    height: 15vh;
+    width: 50vh;
+    border: 3px dotted green;
+}
