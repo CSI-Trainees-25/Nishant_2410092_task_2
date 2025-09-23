@@ -39,17 +39,19 @@ btn.addEventListener("click", () => {
 
 
             item.innerHTML = `
-        <div class="t"><strong>Task:</strong> ${name}</div>
+        <div class="t">Task::: ${name}</div>
+        
         <div class="bflex">
             <div>
-                <label>Progress:</label>
+                <label>Progress::</label>
                 <select>${pr1Options}</select>
             </div>
             <div>
-                <label>Level:</label>
+                <label>Level::</label>
                 <select>${pr2Options}</select>
             </div>
         </div>
+         
         <div class="due">
             <label>Due Date:</label>
             <input type="date" value="${dateinp}">
