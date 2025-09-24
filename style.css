@@ -93,7 +93,7 @@
     /* justify-content: center; */
 }
 
-.list {
+.list {  overflow: scroll;
     border: 4px solid purple;
     border-radius: 2px;
     width: 70%;
@@ -232,7 +232,6 @@
         width:10vw;
         border: 3px solid purple;
         border: 7px;
-         font-family: cursive;
          background-color: rgb(106, 245, 199);
     }
 }

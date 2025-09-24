@@ -32,6 +32,7 @@ btn.addEventListener("click", () => {
 
 
        let item = document.createElement("div");
+        item.setAttribute("draggable", "true");
     item.className = "taskitem";
 
        let pr1Options = selectpr1.innerHTML;
@@ -64,4 +65,38 @@ btn.addEventListener("click", () => {
     dateinput.value = "";
          selectpr1.selectedIndex = 0;
     selectpr2.selectedIndex = 0;
+});
+
+
+let taskitems = document.querySelectorAll(".taskitem"); // all tasks
+let leftbox = document.querySelector(".list"); 
+let rightbox = document.querySelector(".bdy");
+let selected = null; 
+
+
+
+for (let task of taskitems) {
+  task.addEventListener("dragstart", (e) => {
+    selected = e.target;
+  });
+}
+
+rightbox.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+rightbox.addEventListener("drop", (e) => {
+  if (selected) {
+    rightbox.appendChild(selected);
+    selected = null;
+  }
+});
+
+leftbox.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+leftbox.addEventListener("drop", (e) => {
+  if (selected) {
+    leftbox.appendChild(selected);
+    selected = null;
+  }
 });
