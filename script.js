@@ -11,35 +11,34 @@ let selectpr1 = document.querySelector("#pr1");
 let selectpr2 = document.querySelector("#pr2");
 let dateinput = document.querySelector(".date input");
 
+let rightbox = document.querySelector(".bdy");
+let leftbox = document.querySelector(".left");
+
+let selected = null;
+
 plus.addEventListener("click", () => {
    popup.style.display = "flex"; 
 });
 
 btn.addEventListener("click", () => {
-    popup.style.display = "none";    
-});
-
-btn.addEventListener("click", () => {
-    let name = nameinput.value;
-    console.log(name);
-        if (!name) {
+    let name = nameinput.value.trim();
+    if (!name) {
         alert("Enter task please !!!");
         return;
     }
-        let pr1input = selectpr1.value;
+
+    let pr1input = selectpr1.value;
     let pr2input = selectpr2.value;
     let dateinp = dateinput.value;
 
-
-       let item = document.createElement("div");
-        item.setAttribute("draggable", "true");
+    let item = document.createElement("div");
+    item.setAttribute("draggable", "true");
     item.className = "taskitem";
 
-       let pr1Options = selectpr1.innerHTML;
+    let pr1Options = selectpr1.innerHTML;
     let pr2Options = selectpr2.innerHTML;
 
-
-            item.innerHTML = `
+    item.innerHTML = `
         <div class="t">Task::: ${name}</div>
         
         <div class="bflex">
@@ -57,28 +56,24 @@ btn.addEventListener("click", () => {
             <label>Due Date:</label>
             <input type="date" value="${dateinp}">
         </div>
+    
     `;
-      
-        list.appendChild(item);
-        
-  nameinput.value = "";
+
+    item.addEventListener("dragstart", (e) => {
+        selected = e.target;
+    });
+  
+
+    list.appendChild(item);
+
+    nameinput.value = "";
     dateinput.value = "";
-         selectpr1.selectedIndex = 0;
+    selectpr1.selectedIndex = 0;
     selectpr2.selectedIndex = 0;
+
+    popup.style.display = "none"; 
 });
-let rightbox = document.querySelector(".drop");
-let boxs = document.querySelectorAll(".list"); 
-
-let selected = null; 
-
-for (let box of boxs) {
-  box.addEventListener("dragstart", (e) => {
-    console.log("nishant rand");
-    selected = e.target;
-  });
-}
-
-
+let timer =false; 
 rightbox.addEventListener("dragover", (e) => {
   e.preventDefault();
 });
@@ -86,16 +81,29 @@ rightbox.addEventListener("drop", (e) => {
   if (selected) {
     rightbox.appendChild(selected);
     selected = null;
-  }
-});
+  if(!timer){
+    let item = document.createElement("div");
+    let list = document.querySelector(".taskitem");
+  item.innerHTML=`<div class="stime">set timer</div>` ;
+  list.appendChild(item) ;
+     timer=true ;
+}
+}
+ }
+);
 
-
-list.addEventListener("dragover", (e) => {
+leftbox.addEventListener("dragover", (e) => {
   e.preventDefault();
 });
-list.addEventListener("drop", (e) => {
+leftbox.addEventListener("drop", (e) => {
   if (selected) {
-    list.appendChild(selected);
+    leftbox.appendChild(selected);
     selected = null;
   }
+  {
+        let st=document.querySelector(".stime");
+      if(st) st.remove() ;
+      timer=false ;
+  }
 });
+
