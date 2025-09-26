@@ -96,10 +96,14 @@
 .list {  overflow: scroll;
     border: 4px solid purple;
     border-radius: 2px;
-    width: 70%;
+    width: 60%;
     height: 99.1%;
 }
-
+.drop{
+    width: 40vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 .thry {
     display: flex;
     align-items: center;
@@ -108,12 +112,14 @@
     border-radius: 1.5px;
     background-color: rgb(230, 23, 230);
     height: 9vh;
-    width: 25vw;
+    width:99%;
+    
 
     h2 {
         padding-left: 3vw;
     }
 }
+
 
 .box {
     margin: 2.5vh 1vw;

@@ -66,20 +66,18 @@ btn.addEventListener("click", () => {
          selectpr1.selectedIndex = 0;
     selectpr2.selectedIndex = 0;
 });
+let rightbox = document.querySelector(".drop");
+let boxs = document.querySelectorAll(".list"); 
 
-
-let taskitems = document.querySelectorAll(".taskitem"); // all tasks
-let leftbox = document.querySelector(".list"); 
-let rightbox = document.querySelector(".bdy");
 let selected = null; 
 
-
-
-for (let task of taskitems) {
-  task.addEventListener("dragstart", (e) => {
+for (let box of boxs) {
+  box.addEventListener("dragstart", (e) => {
+    console.log("nishant rand");
     selected = e.target;
   });
 }
+
 
 rightbox.addEventListener("dragover", (e) => {
   e.preventDefault();
@@ -91,12 +89,13 @@ rightbox.addEventListener("drop", (e) => {
   }
 });
 
-leftbox.addEventListener("dragover", (e) => {
+
+list.addEventListener("dragover", (e) => {
   e.preventDefault();
 });
-leftbox.addEventListener("drop", (e) => {
+list.addEventListener("drop", (e) => {
   if (selected) {
-    leftbox.appendChild(selected);
+    list.appendChild(selected);
     selected = null;
   }
 });
