@@ -80,17 +80,16 @@ rightbox.addEventListener("dragover", (e) => {
 rightbox.addEventListener("drop", (e) => {
   if (selected) {
     rightbox.appendChild(selected);
+
+    if (!selected.querySelector(".stime")) {
+        let timebox = document.createElement("div");
+          timebox.innerHTML=`<div class="stime">set timer</div>` ;
+        selected.appendChild(timebox); 
+    }
+
     selected = null;
-  if(!timer){
-    let item = document.createElement("div");
-    let list = document.querySelector(".taskitem");
-  item.innerHTML=`<div class="stime">set timer</div>` ;
-  list.appendChild(item) ;
-     timer=true ;
-}
-}
- }
-);
+  }
+});
 
 leftbox.addEventListener("dragover", (e) => {
   e.preventDefault();
@@ -106,4 +105,5 @@ leftbox.addEventListener("drop", (e) => {
       timer=false ;
   }
 });
+
 
