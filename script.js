@@ -19,7 +19,7 @@ let selected = null;
 plus.addEventListener("click", () => {
    popup.style.display = "flex"; 
 });
-
+let t=0 ;
 btn.addEventListener("click", () => {
     let name = nameinput.value.trim();
     if (!name) {
@@ -37,7 +37,7 @@ btn.addEventListener("click", () => {
 
     let pr1Options = selectpr1.innerHTML;
     let pr2Options = selectpr2.innerHTML;
-
+{
     item.innerHTML = `
         <div class="t">Task::: ${name}</div>
         
@@ -58,6 +58,8 @@ btn.addEventListener("click", () => {
         </div>
     
     `;
+    t++ ;
+  }
 
     item.addEventListener("dragstart", (e) => {
         selected = e.target;
@@ -72,6 +74,7 @@ btn.addEventListener("click", () => {
     selectpr2.selectedIndex = 0;
 
     popup.style.display = "none"; 
+    savedata() ;
 });
 let timer =false; 
 rightbox.addEventListener("dragover", (e) => {
@@ -86,7 +89,7 @@ rightbox.addEventListener("drop", (e) => {
           timebox.innerHTML=`<div class="stime">set timer</div>` ;
         selected.appendChild(timebox); 
     }
-
+    savedata() ;
     selected = null;
   }
 });
@@ -97,13 +100,47 @@ leftbox.addEventListener("dragover", (e) => {
 leftbox.addEventListener("drop", (e) => {
   if (selected) {
     leftbox.appendChild(selected);
+    let st = selected.querySelector(".stime");
+    if (st) st.remove();
+
+    timer = false;
+    savedata();
     selected = null;
-  }
-  {
-        let st=document.querySelector(".stime");
-      if(st) st.remove() ;
-      timer=false ;
   }
 });
 
 
+
+function savedata(){
+  let allData = {
+    left: leftbox.innerHTML,
+    right: rightbox.innerHTML
+  };
+  localStorage.setItem("data", allData);
+}
+
+
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("stime")) {
+    let minutes = prompt("Enter minutes for timer:");
+    if (!minutes || isNaN(minutes)) return;
+
+    let remaining = minutes * 60;
+    e.target.textContent = ` ${minutes} min left`;
+
+    let timer = setInterval(() => {
+      remaining--;
+      let mins = Math.floor(remaining / 60);
+      let secs = remaining % 60;
+      e.target.textContent = ` ${mins}:${secs.toString().padStart(2, "0")} left`;
+
+      if (remaining <= 0) {
+        clearInterval(timer);
+        e.target.textContent = " Time's up!";
+      }
+    }, 1000);
+  }
+});
+
+let counti=document.querySelector("#noft");
+counti.innerHTML=`${l}task`;
