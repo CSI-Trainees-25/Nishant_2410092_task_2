@@ -19,7 +19,7 @@ let selected = null;
 plus.addEventListener("click", () => {
    popup.style.display = "flex"; 
 });
-let t=0 ;
+
 btn.addEventListener("click", () => {
     let name = nameinput.value.trim();
     if (!name) {
@@ -35,21 +35,23 @@ btn.addEventListener("click", () => {
     item.setAttribute("draggable", "true");
     item.className = "taskitem";
 
-    let pr1Options = selectpr1.innerHTML;
-    let pr2Options = selectpr2.innerHTML;
-{
     item.innerHTML = `
         <div class="t">Task::: ${name}</div>
         
         <div class="bflex">
             <div>
-                <label>Progress::</label>
-                <select>${pr1Options}</select>
-            </div>
-            <div>
-                <label>Level::</label>
-                <select>${pr2Options}</select>
-            </div>
+        <label>Progress::</label>
+        <select>
+            <option selected>${pr1input}</option>
+        </select>
+    </div>
+    <div>
+        <label>Level::</label>
+        <select>
+            <option selected>${pr2input}</option>
+        </select>
+    </div>
+
         </div>
          
         <div class="due">
@@ -58,9 +60,7 @@ btn.addEventListener("click", () => {
         </div>
     
     `;
-    t++ ;
-  }
-
+   
     item.addEventListener("dragstart", (e) => {
         selected = e.target;
     });
@@ -70,13 +70,14 @@ btn.addEventListener("click", () => {
 
     nameinput.value = "";
     dateinput.value = "";
-    selectpr1.selectedIndex = 0;
-    selectpr2.selectedIndex = 0;
+
 
     popup.style.display = "none"; 
     savedata() ;
 });
+
 let timer =false; 
+
 rightbox.addEventListener("dragover", (e) => {
   e.preventDefault();
 });
@@ -86,7 +87,7 @@ rightbox.addEventListener("drop", (e) => {
 
     if (!selected.querySelector(".stime")) {
         let timebox = document.createElement("div");
-          timebox.innerHTML=`<div class="stime">set timer</div>` ;
+          timebox.innerHTML=`<span class="stime">Set Timer</span>  ` ;
         selected.appendChild(timebox); 
     }
     savedata() ;
@@ -112,35 +113,76 @@ leftbox.addEventListener("drop", (e) => {
 
 
 function savedata(){
-  let allData = {
-    left: leftbox.innerHTML,
-    right: rightbox.innerHTML
-  };
-  localStorage.setItem("data", allData);
+  localStorage.setItem("data", leftbox.innerHTML);
+  localStorage.setItem("data", rightbox.innerHTML);
 }
 
 
-document.addEventListener("click", (e) => {
+const poptimer = document.querySelector(".poptimer");
+// timeb.addEventListener("click", () => {
+//     poptimer.style.display = "flex";   // this will not work ye dynamicaly on right pe drop hone pr bna hai
+// });
+rightbox.addEventListener("click", (e) => {
   if (e.target.classList.contains("stime")) {
-    let minutes = prompt("Enter minutes for timer:");
-    if (!minutes || isNaN(minutes)) return;
-
-    let remaining = minutes * 60;
-    e.target.textContent = ` ${minutes} min left`;
-
-    let timer = setInterval(() => {
-      remaining--;
-      let mins = Math.floor(remaining / 60);
-      let secs = remaining % 60;
-      e.target.textContent = ` ${mins}:${secs.toString().padStart(2, "0")} left`;
-
-      if (remaining <= 0) {
-        clearInterval(timer);
-        e.target.textContent = " Time's up!";
-      }
-    }, 1000);
+    poptimer.style.display = "flex";
   }
 });
 
-let counti=document.querySelector("#noft");
-counti.innerHTML=`${l}task`;
+
+        
+const hoursInput = document.querySelector(".hours");
+const minutesInput = document.querySelector(".minutes");
+const secondsInput = document.querySelector(".seconds");
+
+const [startBtn, closeBtn, resetBtn] = document.querySelectorAll(".b button");
+
+
+let timerInterval;
+function startTimer() {
+  clearInterval(timerInterval);
+
+  let h = hoursInput.value ? Number(hoursInput.value) : 0;
+  let m = minutesInput.value ? Number(minutesInput.value) : 0;
+  let s = secondsInput.value ? Number(secondsInput.value) : 0;
+
+  let totalSeconds = h * 3600 + m * 60 + s;
+
+  if (totalSeconds <= 0) {
+    alert("Please set a valid time!");
+    return;
+  }
+
+  timerInterval = setInterval(() => {
+    if (totalSeconds <= 0) {
+      clearInterval(timerInterval);
+      alert(" Time’s up!");
+      return;
+    }
+
+    totalSeconds--;
+
+    let hrs = Math.floor(totalSeconds / 3600);
+    let mins = Math.floor((totalSeconds % 3600) / 60);
+    let secs = totalSeconds % 60;
+
+    hoursInput.value = hrs < 10 ? "0" + hrs : hrs;
+    minutesInput.value = mins < 10 ? "0" + mins : mins;
+    secondsInput.value = secs < 10 ? "0" + secs : secs;
+  }, 1000);
+
+}
+startBtn.addEventListener("click", startTimer);
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  hoursInput.value = "00";
+  minutesInput.value = "00";
+  secondsInput.value = "00";
+}
+resetBtn.addEventListener("click", resetTimer);
+
+function closePopup() {
+  clearInterval(timerInterval);
+  poptimer.style.display = "none";
+}
+closeBtn.addEventListener("click", closePopup);
