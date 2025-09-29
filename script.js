@@ -1,8 +1,6 @@
 console.log("started");
 
 let plus = document.querySelector(".plus"); 
-let list = document.querySelector(".list");
-let box = document.querySelector(".box");
 let popup = document.querySelector(".popcont"); 
 let btn = document.querySelector(".btn button"); 
 
@@ -30,53 +28,47 @@ btn.addEventListener("click", () => {
     let pr1input = selectpr1.value;
     let pr2input = selectpr2.value;
     let dateinp = dateinput.value;
-
+     
+  
     let item = document.createElement("div");
     item.setAttribute("draggable", "true");
     item.className = "taskitem";
 
     item.innerHTML = `
         <div class="t">Task::: ${name}</div>
-        
         <div class="bflex">
             <div>
-        <label>Progress::</label>
-        <select>
-            <option selected>${pr1input}</option>
-        </select>
-    </div>
-    <div>
-        <label>Level::</label>
-        <select>
-            <option selected>${pr2input}</option>
-        </select>
-    </div>
-
+                <label>Progress::</label>
+                <select>
+                    <option selected>${pr1input}</option>
+                </select>
+            </div>
+            <div>
+                <label>Level::</label>
+                <select>
+                    <option selected>${pr2input}</option>
+                </select>
+            </div>
         </div>
-         
         <div class="due">
             <label>Due Date:</label>
             <input type="date" value="${dateinp}">
+            <span class="del">delete</span>
         </div>
-    
     `;
-   
+
     item.addEventListener("dragstart", (e) => {
         selected = e.target;
     });
-  
 
-    list.appendChild(item);
+    leftbox.appendChild(item);
 
     nameinput.value = "";
     dateinput.value = "";
 
-
     popup.style.display = "none"; 
-    savedata() ;
+    savedata();
 });
-
-let timer =false; 
 
 rightbox.addEventListener("dragover", (e) => {
   e.preventDefault();
@@ -84,13 +76,12 @@ rightbox.addEventListener("dragover", (e) => {
 rightbox.addEventListener("drop", (e) => {
   if (selected) {
     rightbox.appendChild(selected);
-
     if (!selected.querySelector(".stime")) {
         let timebox = document.createElement("div");
-          timebox.innerHTML=`<span class="stime">Set Timer</span>  ` ;
+        timebox.innerHTML=`<span class="stime">Set Timer</span>`;
         selected.appendChild(timebox); 
     }
-    savedata() ;
+    savedata();
     selected = null;
   }
 });
@@ -103,41 +94,42 @@ leftbox.addEventListener("drop", (e) => {
     leftbox.appendChild(selected);
     let st = selected.querySelector(".stime");
     if (st) st.remove();
-
-    timer = false;
     savedata();
     selected = null;
   }
 });
 
 
+let boxy=[leftbox, rightbox];
+boxy.forEach(box => {
+  box.addEventListener("click", (e) => {
+    if (e.target.classList.contains("del")) {
+      let t = e.target.closest(".taskitem");
+      t.remove();
+      savedata();
+    }
+  });
+});
 
 function savedata(){
-  localStorage.setItem("data", leftbox.innerHTML);
-  localStorage.setItem("data", rightbox.innerHTML);
+  localStorage.setItem("leftbox", leftbox.innerHTML);
+  localStorage.setItem("rightbox", rightbox.innerHTML);
 }
 
-
 const poptimer = document.querySelector(".poptimer");
-// timeb.addEventListener("click", () => {
-//     poptimer.style.display = "flex";   // this will not work ye dynamicaly on right pe drop hone pr bna hai
-// });
+const hoursInput = document.querySelector(".hours");
+const minutesInput = document.querySelector(".minutes");
+const secondsInput = document.querySelector(".seconds");
+const [startBtn, closeBtn, resetBtn] = document.querySelectorAll(".b button");
+
+let timerInterval;
+
 rightbox.addEventListener("click", (e) => {
   if (e.target.classList.contains("stime")) {
     poptimer.style.display = "flex";
   }
 });
 
-
-        
-const hoursInput = document.querySelector(".hours");
-const minutesInput = document.querySelector(".minutes");
-const secondsInput = document.querySelector(".seconds");
-
-const [startBtn, closeBtn, resetBtn] = document.querySelectorAll(".b button");
-
-
-let timerInterval;
 function startTimer() {
   clearInterval(timerInterval);
 
@@ -155,7 +147,7 @@ function startTimer() {
   timerInterval = setInterval(() => {
     if (totalSeconds <= 0) {
       clearInterval(timerInterval);
-      alert(" Time’s up!");
+      alert("Time’s up!");
       return;
     }
 
@@ -169,8 +161,8 @@ function startTimer() {
     minutesInput.value = mins < 10 ? "0" + mins : mins;
     secondsInput.value = secs < 10 ? "0" + secs : secs;
   }, 1000);
-
 }
+
 startBtn.addEventListener("click", startTimer);
 
 function resetTimer() {
@@ -186,3 +178,20 @@ function closePopup() {
   poptimer.style.display = "none";
 }
 closeBtn.addEventListener("click", closePopup);
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("leftbox")) {
+    leftbox.innerHTML = localStorage.getItem("leftbox");
+  }
+  if (localStorage.getItem("rightbox")) {
+    rightbox.innerHTML = localStorage.getItem("rightbox");
+  }
+
+  document.querySelectorAll(".taskitem").forEach(item => {
+    item.addEventListener("dragstart", (e) => {
+      selected = e.target;
+    });
+  });
+});
+
+//  localStorage.clear()
